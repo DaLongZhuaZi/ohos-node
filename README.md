@@ -21,20 +21,9 @@ cd ~
 curl -L -O https://github.com/hqzing/ohos-node/releases/download/v24.2.0/node-v24.2.0-openharmony-arm64.tar.gz 
 tar -zxf node-v24.2.0-openharmony-arm64.tar.gz
 export PATH=$PATH:~/node-v24.2.0-openharmony-arm64/bin
-alias node="node --jitless"
 
 # You can now use the 'node' command.
 ```
-
-Note: although current OpenHarmony PCs can execute self-signed binaries directly, this approach still has major restrictions.
-
-The two most common ones:
-1. Self-signed binaries lack JIT permission, so node must be started in JIT-less mode.  
-2. They are granted no SELinux privileges, so you may hit various permission issues.
-
-If these limits are unacceptable, consider:
-1. Repackaging the tar into an hnp. For details, please refer to solution of [DevBox](https://gitcode.com/OpenHarmonyPCDeveloper/devbox).
-2. Installing CodeArts IDE from the AppGallery, it ships its own Node.js runtime.
 
 **2. On an OpenHarmony Dev-Board**
 

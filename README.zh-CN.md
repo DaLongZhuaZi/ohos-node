@@ -19,20 +19,9 @@ cd ~
 curl -L -O https://github.com/hqzing/ohos-node/releases/download/v24.2.0/node-v24.2.0-openharmony-arm64.tar.gz
 tar -zxf node-v24.2.0-openharmony-arm64.tar.gz
 export PATH=$PATH:~/node-v24.2.0-openharmony-arm64/bin
-alias node="node --jitless"
 
 # 现在可以使用 node 命令了
 ```
-
-注意：虽然现在的鸿蒙 PC 已经支持直接执行自签名的二进制，但该用法仍然存在诸多限制。
-
-最典型的两个限制：
-1. 自签名的二进制没有 JIT 权限，所以运行 node 的时候要以无 JIT 模式来运行。
-2. 自签名的二进制没有任何 selinux 权限，在使用过程中可能会遇到各种权限相关的问题。
-
-如果该用法无法满足你的使用需求，请考虑其他方案：
-1. 将 tar 包打成 hnp 包再使用，详情请参考 [DevBox](https://gitcode.com/OpenHarmonyPCDeveloper/devbox) 的方案。
-2. 去应用市场下载 CodeArts IDE，直接使用 CodeArts IDE 内置的 Node.js。
 
 **2\. 在鸿蒙开发板中使用**
 
