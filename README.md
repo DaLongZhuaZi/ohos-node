@@ -29,7 +29,6 @@ export PATH=$PATH:~/node-v24.2.0-openharmony-arm64/bin
 
 Push the tarball to the device with `hdc`, extract, and update `PATH`.
 
-Example:
 ```sh
 hdc file send node-v24.2.0-openharmony-arm64.tar.gz /data
 hdc shell
@@ -45,7 +44,6 @@ export PATH=$PATH:/data/node-v24.2.0-openharmony-arm64/bin
 
 Download the tarball with `curl` inside the container, extract, and add to `PATH`.
 
-Example:
 ```sh
 docker run -itd --name=ohos ghcr.io/hqzing/dockerharmony:latest
 docker exec -it ohos sh

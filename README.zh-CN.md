@@ -14,6 +14,7 @@
 **1\. 在鸿蒙 PC 中使用**
 
 在 “终端”（HiShell）中用 curl 下载这个软件包，然后以“解压 + 配 PATH” 的方式使用。
+
 ```sh
 cd ~
 curl -L -O https://github.com/hqzing/ohos-node/releases/download/v24.2.0/node-v24.2.0-openharmony-arm64.tar.gz
@@ -27,7 +28,6 @@ export PATH=$PATH:~/node-v24.2.0-openharmony-arm64/bin
 
 用 hdc 把它推到设备上，然后以“解压 + 配 PATH” 的方式使用。
 
-示例：
 ```sh
 hdc file send node-v24.2.0-openharmony-arm64.tar.gz /data
 hdc shell
@@ -43,7 +43,6 @@ export PATH=$PATH:/data/node-v24.2.0-openharmony-arm64/bin
 
 在容器中用 curl 下载这个软件包，然后以“解压 + 配 PATH” 的方式使用。
 
-示例：
 ```sh
 docker run -itd --name=ohos ghcr.io/hqzing/dockerharmony:latest
 docker exec -it ohos sh
