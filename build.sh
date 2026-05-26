@@ -22,6 +22,8 @@ query_component() {
 # clean old files if exist
 rm -rf *.tar.gz \
   ohos-sdk \
+  daily_build.log \
+  manifest_tag.xml \
   llvm-19 \
   node \
   node-${version}-openharmony-arm64
@@ -29,10 +31,11 @@ rm -rf *.tar.gz \
 # setup openharmony sdk
 sdk_download_url=$(query_component "ohos-sdk-public" | jq -r ".data.list.dataList[0].obsPath")
 curl $sdk_download_url -o ohos-sdk-public.tar.gz
-mkdir ohos-sdk
-tar -zxf ohos-sdk-public.tar.gz -C ohos-sdk
+tar -zxf ohos-sdk-public.tar.gz
+rm -rf daily_build.log manifest_tag.xml ohos-sdk/windows ohos-sdk/ohos
 cd ohos-sdk/linux
 unzip -q toolchains-*.zip
+rm -rf *.zip
 cd ../..
 
 # setup LLVM-19
