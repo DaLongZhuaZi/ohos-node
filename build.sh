@@ -21,6 +21,7 @@ query_component() {
 
 # clean old files if exist
 rm -rf *.tar.gz \
+  *.tar.xz \
   ohos-sdk \
   daily_build.log \
   manifest_tag.xml \
@@ -95,3 +96,4 @@ $workdir/ohos-sdk/linux/toolchains/lib/binary-sign-tool sign \
 
 cp LICENSE node-${version}-openharmony-arm64
 tar -zcf node-${version}-openharmony-arm64.tar.gz node-${version}-openharmony-arm64
+tar -Jcf node-${version}-openharmony-arm64.tar.xz node-${version}-openharmony-arm64
