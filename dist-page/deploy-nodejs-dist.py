@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """deploy-nodejs-dist.py -- one-shot self-hosted Node.js dist source deployer
 
-Serves a nodejs.org/dist-compatible dist source for nvm, fnm, node-gyp
+Serves a dist source compatible with nodejs.org/dist for nvm, fnm, node-gyp
 and similar tools.
 
 Usage:

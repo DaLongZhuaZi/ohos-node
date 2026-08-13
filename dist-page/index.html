@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ohos-node — Node.js for OpenHarmony</title>
+<meta name="description" content="Pre-built Node.js packages for the OpenHarmony platform. Download from GitHub Releases or the dist source, and install manually or via nvm / fnm.">
+<style>
+  :root {
+    --accent: #2f6f4f;
+    --bg: #fafaf8;
+    --card: #ffffff;
+    --border: #e3e3dd;
+    --text: #24242a;
+    --muted: #56565e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  header.hero {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    padding: 28px 24px 24px;
+    text-align: center;
+  }
+  header.hero h1 { margin: 0; font-size: 2.4rem; line-height: 1.3; letter-spacing: .02em; }
+  header.hero .tagline { margin: 8px auto 0; font-size: 1.15rem; font-weight: 600; color: var(--text); }
+  header.hero .gh { margin: 14px auto 0; font-size: .95rem; color: var(--muted); }
+  main { max-width: 820px; margin: 0 auto; padding: 32px 24px 32px; }
+  section { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-bottom: 20px; }
+  h2 { margin-top: 0; font-size: 1.25rem; }
+  .wip { color: var(--muted); font-weight: normal; }
+  a { color: var(--accent); }
+  code, pre {
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+    font-size: .9rem;
+  }
+  pre {
+    background: #f2f2ec;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    overflow-x: auto;
+  }
+  pre code { background: none; padding: 0; }
+  code { background: #f2f2ec; border-radius: 4px; padding: 1px 5px; }
+  ul { padding-left: 20px; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>ohos-node</h1>
+  <p class="tagline">Third-party Node.js build for OpenHarmony.</p>
+  <p class="gh">GitHub: <a href="https://github.com/hqzing/ohos-node">hqzing/ohos-node</a></p>
+</header>
+
+<main>
+
+  <section>
+    <h2>Get Pre-built Packages</h2>
+    <p>You can download pre-built packages from either of the following sources:</p>
+    <ul>
+      <li>
+        <strong><a href="https://github.com/hqzing/ohos-node/releases">GitHub Releases</a></strong>
+      </li>
+      <li>
+        <strong><a href="https://ohos-node.com/dist">Dist source</a></strong> — a self-hosted
+        Node.js dist source compatible with <a href="https://nodejs.org/dist">nodejs.org/dist</a>.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Usage</h2>
+
+    <h3>1. Manual install</h3>
+    <p>Extract the tarball and add the <code>bin</code> directory to <code>PATH</code>:</p>
+    <pre><code>tar -zxf node-v24.2.0-openharmony-arm64.tar.gz
+export PATH=$PATH:$(realpath node-v24.2.0-openharmony-arm64/bin)
+
+# You can now use the 'node' command.</code></pre>
+
+    <h3>2. Install via nvm / fnm <span class="wip">(under adaptation, coming soon)</span></h3>
+    <p>Support is under adaptation — a few patches are still needed before nvm / fnm can install from the dist source.</p>
+    <p>The intended usage:</p>
+    <pre><code># nvm
+NVM_NODEJS_ORG_MIRROR=https://ohos-node.com/dist nvm install v24.2.0
+# or persist it:
+nvm set node_mirror https://ohos-node.com/dist
+
+# fnm
+FNM_NODE_DIST_MIRROR=https://ohos-node.com/dist fnm install 24</code></pre>
+  </section>
+
+</main>
+
+</body>
+</html>

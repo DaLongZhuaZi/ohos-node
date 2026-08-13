@@ -4,55 +4,43 @@
 
 # ohos-node
 
-本项目为 OpenHarmony 平台编译了 Node.js，并发布预构建包。
+本项目为 OpenHarmony 平台构建 Node.js，并发布预构建包。
 
 ## 获取预构建包
 
-前往 [release 页面](https://github.com/hqzing/ohos-node/releases) 获取。
+预构建包可以从以下两个来源获取：
+
+**1\. [GitHub Release](https://github.com/hqzing/ohos-node/releases)**
+
+**2\. [分发源](https://ohos-node.com/dist)** — 自托管的 Node.js 分发源，与 [nodejs.org/dist](https://nodejs.org/dist) 兼容。
 
 ## 用法
-**1\. 在鸿蒙 PC 中使用**
 
-在 “终端”（HiShell）中用 curl 下载这个软件包，然后以“解压 + 配 PATH” 的方式使用。
+**1\. 手动安装**
+
+解压压缩包，将解压出的 `bin` 目录加入 `PATH` 即可：
 
 ```sh
-cd ~
-curl -L -O https://github.com/hqzing/ohos-node/releases/download/v24.2.0/node-v24.2.0-openharmony-arm64.tar.gz
 tar -zxf node-v24.2.0-openharmony-arm64.tar.gz
-export PATH=$PATH:~/node-v24.2.0-openharmony-arm64/bin
+export PATH=$PATH:$(realpath node-v24.2.0-openharmony-arm64/bin)
 
 # 现在可以使用 node 命令了
 ```
 
-**2\. 在鸿蒙开发板中使用**
+**2\. 使用 nvm / fnm 安装**（正在适配，敬请期待）
 
-用 hdc 把它推到设备上，然后以“解压 + 配 PATH” 的方式使用。
+适配工作还在进行中，还需要打几个补丁才能让 nvm / fnm 从分发源安装。
 
-```sh
-hdc file send node-v24.2.0-openharmony-arm64.tar.gz /data
-hdc shell
-
-cd /data
-tar -zxf node-v24.2.0-openharmony-arm64.tar.gz
-export PATH=$PATH:/data/node-v24.2.0-openharmony-arm64/bin
-
-# 现在可以使用 node 命令了
-```
-
-**3\. 在 [鸿蒙容器](https://github.com/hqzing/dockerharmony) 中使用**
-
-在容器中用 curl 下载这个软件包，然后以“解压 + 配 PATH” 的方式使用。
+预期的用法如下：
 
 ```sh
-docker run -itd --name=ohos ghcr.io/hqzing/dockerharmony:latest
-docker exec -it ohos sh
+# nvm
+NVM_NODEJS_ORG_MIRROR=https://ohos-node.com/dist nvm install v24.2.0
+# 或持久化配置：
+nvm set node_mirror https://ohos-node.com/dist
 
-cd /root
-curl -L -O https://github.com/hqzing/ohos-node/releases/download/v24.2.0/node-v24.2.0-openharmony-arm64.tar.gz
-tar -zxf node-v24.2.0-openharmony-arm64.tar.gz -C /opt
-export PATH=$PATH:/opt/node-v24.2.0-openharmony-arm64/bin
-
-# 现在可以使用 node 命令了
+# fnm
+FNM_NODE_DIST_MIRROR=https://ohos-node.com/dist fnm install 24
 ```
 
 ## 从源码构建

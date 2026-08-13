@@ -4,56 +4,43 @@
 
 # ohos-node
 
-This project compiles Node.js for the OpenHarmony platform and releases pre-built packages.
+This project build Node.js for the OpenHarmony platform and releases pre-built packages.
 
 ## Get Pre-built Packages
 
-Head to the [releases page](https://github.com/hqzing/ohos-node/releases) to download.
+Pre-built packages are available from two sources:
+
+**1. [GitHub Releases](https://github.com/hqzing/ohos-node/releases)**
+
+**2. [Dist source](https://ohos-node.com/dist)** — a self-hosted Node.js dist source compatible with [nodejs.org/dist](https://nodejs.org/dist).
 
 ## Usage
 
-**1. On an OpenHarmony PC**
+**1. Manual install**
 
-Download the tarball with `curl` in the “Terminal” (HiShell), then extract it and add the bin directory to `PATH`.
+Extract the tarball and add the `bin` directory to `PATH`:
 
 ```sh
-cd ~
-curl -L -O https://github.com/hqzing/ohos-node/releases/download/v24.2.0/node-v24.2.0-openharmony-arm64.tar.gz 
 tar -zxf node-v24.2.0-openharmony-arm64.tar.gz
-export PATH=$PATH:~/node-v24.2.0-openharmony-arm64/bin
+export PATH=$PATH:$(realpath node-v24.2.0-openharmony-arm64/bin)
 
 # You can now use the 'node' command.
 ```
 
-**2. On an OpenHarmony Dev-Board**
+**2. Install via nvm / fnm** (under adaptation, coming soon)
 
-Push the tarball to the device with `hdc`, extract, and update `PATH`.
+Support is under adaptation — a few patches are still needed before nvm / fnm can install from the dist source.
 
-```sh
-hdc file send node-v24.2.0-openharmony-arm64.tar.gz /data
-hdc shell
-
-cd /data
-tar -zxf node-v24.2.0-openharmony-arm64.tar.gz
-export PATH=$PATH:/data/node-v24.2.0-openharmony-arm64/bin
-
-# You can now use the 'node' command.
-```
-
-**3. Inside the [OpenHarmony Container](https://github.com/hqzing/dockerharmony)**
-
-Download the tarball with `curl` inside the container, extract, and add to `PATH`.
+The intended usage:
 
 ```sh
-docker run -itd --name=ohos ghcr.io/hqzing/dockerharmony:latest
-docker exec -it ohos sh
+# nvm
+NVM_NODEJS_ORG_MIRROR=https://ohos-node.com/dist nvm install v24.2.0
+# or persist it:
+nvm set node_mirror https://ohos-node.com/dist
 
-cd /root
-curl -L -O https://github.com/hqzing/ohos-node/releases/download/v24.2.0/node-v24.2.0-openharmony-arm64.tar.gz 
-tar -zxf node-v24.2.0-openharmony-arm64.tar.gz -C /opt
-export PATH=$PATH:/opt/node-v24.2.0-openharmony-arm64/bin
-
-# You can now use the 'node' command.
+# fnm
+FNM_NODE_DIST_MIRROR=https://ohos-node.com/dist fnm install 24
 ```
 
 ## Build from Source
