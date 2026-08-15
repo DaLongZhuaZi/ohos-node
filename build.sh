@@ -1,10 +1,17 @@
 #!/bin/sh
+# ============================================================
+# ohos-node build.sh 改造版：--shared 构建 libnode.so
+# 变更点：
+#   1. CONFIGURE_ARGS 增加 --shared（构建共享库 libnode.so）
+#   2. 打包阶段额外产出 libnode-<version>-openharmony-arm64/：
+#      lib/libnode.so + include/node 头文件（供嵌入编译使用）
+# 用法：./build-shared.sh v26.7.0
+# ============================================================
 set -e
 
 if [ -z "$1" ]; then
-    echo "usage: ./build.sh <branch name or tag name>"
-    echo "example: ./build.sh main"
-    echo "example: ./build.sh v24.2.0"
+    echo "usage: ./build-shared.sh <branch name or tag name>"
+    echo "example: ./build-shared.sh v26.7.0"
     exit 1
 fi
 
@@ -27,7 +34,8 @@ rm -rf *.tar.gz \
   manifest_tag.xml \
   llvm-19 \
   node \
-  node-${version}-openharmony-arm64
+  node-${version}-openharmony-arm64 \
+  libnode-${version}-openharmony-arm64
 
 # setup openharmony sdk
 sdk_download_url=$(query_component "ohos-sdk-public" | jq -r ".data.list.dataList[0].obsPath")
@@ -62,7 +70,7 @@ if echo " $need_patch_0001_versions " | grep -q " $version "; then
     patch -p1 < ../0001-fix-argument-list-too-long.patch
 fi
 
-need_patch_0002_versions="^v22\."
+need_patch_0002_versions="^v22\\."
 if echo "$version" | grep -q "$need_patch_0002_versions"; then
     patch -p1 < ../0002-use-C++20-for-Node.js-core.patch
 fi
@@ -75,17 +83,13 @@ if echo " $need_no_error_versions " | grep -q " $version "; then
     export CXX="$CXX -Wno-error=implicit-function-declaration"
 fi
 
+# ★ 变更点 1：--shared 构建 libnode.so
 CONFIGURE_ARGS="--dest-cpu=arm64 \
   --dest-os=openharmony \
   --cross-compiling \
+  --shared \
   --prefix=$workdir/node-${version}-openharmony-arm64"
 
-# Node.js's build system enables Temporal by default when a Rust environment
-# is available on the build machine.
-# For details, see this PR: https://github.com/nodejs/node/pull/61806.
-# However, enabling Temporal causes build failures during cross-compilation for OHOS.
-# To ensure this build script works correctly on machines with Rust environments
-# (such as GitHub Actions runners), Temporal is explicitly disabled here.
 if ./configure --help 2>&1 | grep -q -- "--v8-disable-temporal-support"; then
     CONFIGURE_ARGS="$CONFIGURE_ARGS --v8-disable-temporal-support"
 fi
@@ -95,7 +99,7 @@ make -j$(nproc)
 make install
 cd ..
 
-# code signing
+# code signing（保持原样：bin/node 独立签名）
 $workdir/ohos-sdk/linux/toolchains/lib/binary-sign-tool sign \
   -inFile node-${version}-openharmony-arm64/bin/node \
   -outFile node-${version}-openharmony-arm64/bin/node \
@@ -104,3 +108,11 @@ $workdir/ohos-sdk/linux/toolchains/lib/binary-sign-tool sign \
 cp LICENSE node-${version}-openharmony-arm64
 tar -zcf node-${version}-openharmony-arm64.tar.gz node-${version}-openharmony-arm64
 tar -Jcf node-${version}-openharmony-arm64.tar.xz node-${version}-openharmony-arm64
+
+# ★ 变更点 2：单独打包 libnode.so + 头文件（嵌入用）
+mkdir -p libnode-${version}-openharmony-arm64/lib
+cp -r node-${version}-openharmony-arm64/lib/libnode.so libnode-${version}-openharmony-arm64/lib/
+cp -r node-${version}-openharmony-arm64/include libnode-${version}-openharmony-arm64/include
+tar -zcf libnode-${version}-openharmony-arm64.tar.gz libnode-${version}-openharmony-arm64
+echo "=========== SHARED BUILD DONE ==========="
+ls -la libnode-${version}-openharmony-arm64/lib/
