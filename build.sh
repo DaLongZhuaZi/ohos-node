@@ -57,7 +57,10 @@ tar -zxf llvm-linux-x86_64.tar.gz
 tar -zxf ohos-sysroot.tar.gz
 cd ..
 
-git clone --branch $version --depth 1 https://github.com/nodejs/node.git
+# WSL 环境 github.com 直连不稳定，改用 nodejs.org 官方源码包
+curl -fsSL https://nodejs.org/dist/$version/node-$version.tar.gz -o node-src.tar.gz
+tar -zxf node-src.tar.gz
+mv node-$version node
 cd node
 
 export CC="$workdir/llvm-19/llvm/bin/aarch64-unknown-linux-ohos-clang"
@@ -110,8 +113,9 @@ tar -zcf node-${version}-openharmony-arm64.tar.gz node-${version}-openharmony-ar
 tar -Jcf node-${version}-openharmony-arm64.tar.xz node-${version}-openharmony-arm64
 
 # ★ 变更点 2：单独打包 libnode.so + 头文件（嵌入用）
+# make install 不安装 libnode.so，需从构建目录拷贝（产物名带 ABI 版本号）
 mkdir -p libnode-${version}-openharmony-arm64/lib
-cp -r node-${version}-openharmony-arm64/lib/libnode.so libnode-${version}-openharmony-arm64/lib/
+cp -r node/out/Release/obj.target/libnode.so.147 libnode-${version}-openharmony-arm64/lib/libnode.so
 cp -r node-${version}-openharmony-arm64/include libnode-${version}-openharmony-arm64/include
 tar -zcf libnode-${version}-openharmony-arm64.tar.gz libnode-${version}-openharmony-arm64
 echo "=========== SHARED BUILD DONE ==========="
