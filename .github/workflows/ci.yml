@@ -33,6 +33,7 @@ jobs:
           path: |
             node-${{ env.VERSION }}-openharmony-arm64.tar.gz
             node-${{ env.VERSION }}-openharmony-arm64.tar.xz
+            libnode-${{ env.VERSION }}-openharmony-arm64.tar.gz
           retention-days: 7
       - name: Upload release asset
         uses: softprops/action-gh-release@v3
@@ -41,3 +42,4 @@ jobs:
           files: |
             node-${{ env.VERSION }}-openharmony-arm64.tar.gz
             node-${{ env.VERSION }}-openharmony-arm64.tar.xz
+            libnode-${{ env.VERSION }}-openharmony-arm64.tar.gz
