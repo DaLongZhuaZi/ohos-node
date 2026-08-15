@@ -1,6 +1,12 @@
 name: CI
 
 on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Node.js branch or tag name'
+        required: true
+        default: 'v26.7.0'
   release:
     types: [created]
   push:
@@ -18,7 +24,9 @@ jobs:
         uses: actions/checkout@v5
       - name: Set Node.js branch or tag name
         run: |
-          if [ "${{ github.event_name }}" == "release" ]; then
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+          elif [ "${{ github.event_name }}" == "release" ]; then
             echo "VERSION=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
           else
             echo "VERSION=main" >> $GITHUB_ENV
